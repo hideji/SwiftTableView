@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  SwiftTableView
 //
-//  Created by clavier on 2014/07/02.
-//  Copyright (c) 2014年 hideji. All rights reserved.
+//  Created by hideji on 2014/07/02.
+//  Copyright (c) 2014 hideji. All rights reserved.
 //
 
 import UIKit
