@@ -10,23 +10,25 @@ import Foundation
 
 class DetailsViewController: UIViewController {
     
-    @IBOutlet var image : UIImageView
-    @IBOutlet var textView : UITextView
-    @IBOutlet var titleBar : UINavigationItem
+    @IBOutlet weak var image : UIImageView!
+    @IBOutlet weak var textView : UITextView!
+    @IBOutlet weak var titleBar : UINavigationItem!
     
-    var app:AppModel?
+    var app:AppEntity?
+    let appModel:AppModel = AppModel.sharedInstance
     
 
-    init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let settingsImage = UIImage(named: "settingsButton")
-        var leftBarButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "moveToDetailView")
+        let leftBarButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "moveToDetailView")
         self.titleBar.leftBarButtonItem = leftBarButton
-        self.titleBar.title = app!.titleName
+        self.app = appModel.getApp(appModel.selected)
+        self.navigationItem.title = app!.titleName
         self.image.setImageWithURL(app!.artworkUrl512)
         self.textView.text = app!.appDescription
         
@@ -36,7 +38,8 @@ class DetailsViewController: UIViewController {
         self.performSegueWithIdentifier("detailToTable", sender:self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         println(segue.description)
+    
     }
 }

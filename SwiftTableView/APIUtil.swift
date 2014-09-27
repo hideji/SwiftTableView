@@ -17,10 +17,10 @@ class APIUtil: NSObject {
     
     func searchItunesFor(searchTerm:String) {
         
-        var itunesSearchTerm:NSString = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        var itunesSearchTerm: NSString = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         
-        var escapedSearchTerm = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-        var urlPath = "https://itunes.apple.com/search?term=\(escapedSearchTerm)&media=software"
+        var escapedSearchTerm: NSString = itunesSearchTerm.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        var urlPath: NSString = "https://itunes.apple.com/search?term=\(escapedSearchTerm)&media=software"
 
         
         let manager :AFHTTPSessionManager = AFHTTPSessionManager()
@@ -31,7 +31,7 @@ class APIUtil: NSObject {
             },
             failure:{ (task, error) -> Void in
                 println("Connection failed.\(error.localizedDescription)")
-                println("Failure")
+                println("Failure:\(urlPath)")
             })
         
     }

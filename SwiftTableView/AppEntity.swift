@@ -8,13 +8,13 @@
 
 import Foundation
 
-class AppModel: NSObject {
+class AppEntity: NSObject {
     
-    var titleName:NSString      //title
-    var price:NSString          //price 
-    var imageURL:NSURL
-    var artworkUrl512:NSURL
-    var appDescription:NSString
+    let titleName:NSString      //title
+    let price:NSString          //price
+    let imageURL:NSURL
+    let artworkUrl512:NSURL
+    let appDescription:NSString
     
     // initialize
     init(titleName: String, price: String, url:String, url512:String, desc:String) {

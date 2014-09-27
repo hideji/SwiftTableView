@@ -6,26 +6,29 @@
 //  Copyright (c) 2014 hideji. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class SearchViewCell: UITableViewCell {
-    @IBOutlet var titleLable : UILabel
-    @IBOutlet var priceLable : UILabel
-    @IBOutlet var imView : UIImageView
+    
+    @IBOutlet weak var titleLable : UILabel! = nil
+    @IBOutlet weak var priceLable : UILabel! = nil
+    @IBOutlet weak var imView : UIImageView! = nil
+    
+    var result: AppEntity! {
+        didSet {
+            //var imageURL:NSURL = result.imageURL!
+            self.imView.setImageWithURL(result.imageURL)
+            self.titleLable.text = result.titleName
+            self.priceLable.text = result.price
+        }
+    }
     
     // Nib
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLable.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 0.8)
-        priceLable.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 0.8)
+        self.titleLable.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 0.8)
+        self.priceLable.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 0.8)
         
     }
     
-    // Cell
-    func configureCell(result:AppModel, atIndexPath indexPath: NSIndexPath){
-        imView.setImageWithURL(result.imageURL)
-        titleLable.text = result.titleName
-        priceLable.text = result.price
-        
-    }
 }

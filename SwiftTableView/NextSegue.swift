@@ -11,8 +11,15 @@ import Foundation
 class NextSegue:UIStoryboardSegue {
     
     override func perform() {
-        var srcViewController:UIViewController = self.sourceViewController as UIViewController
-        var distViewController:UIViewController = self.destinationViewController as UIViewController
+        if (self.identifier == "tableToDetail")
+        {
+        
+        var srcViewController:SearchViewController = self.sourceViewController as SearchViewController
+        var distViewController:DetailsViewController = self.destinationViewController as DetailsViewController
+        //var index = srcViewController.selectIndex
+        // TODO:
+        //distViewController.app = srcViewController.apps[index]
+        //distViewController.app?.titleName
         
         UIView.transitionWithView(srcViewController.view,
             duration: 0.5,
@@ -22,5 +29,6 @@ class NextSegue:UIStoryboardSegue {
             completion: { _ in
                 srcViewController.presentViewController(distViewController, animated:false, completion:nil)
             })
+        }
     }
 }

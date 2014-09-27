@@ -10,19 +10,21 @@ import Foundation
 
 
 protocol AppSearchStoreProtocol {
-    func didRecieveDataResults(apps: AppModel[])
+    func didRecieveDataResults()
 }
 
-class AppSearchStore:NSObject, UITableViewDataSource, APIUtilProtocol
+// TODO: FireAPIUtilを試験的に追加
+class AppSearchStore:NSObject, UITableViewDataSource, APIUtilProtocol, FireAPIUtilProtocol
 {
 
-    var apps:AppModel[] = []
+    var appModel: AppModel = AppModel.sharedInstance
     let kCellIdentifier: String = "SearchResultCell"
-    var delegate:AppSearchStoreProtocol?
+    var delegate: AppSearchStoreProtocol?
     var api: APIUtil = APIUtil()
-    var searchWord:String
+    var fireApi: FireAPIUtil = FireAPIUtil()
+    var searchWord: String
     
-    init(){
+    override init(){
         self.searchWord = ""
         super.init()
     }
@@ -32,6 +34,9 @@ class AppSearchStore:NSObject, UITableViewDataSource, APIUtilProtocol
         api.delegate = self
         self.searchWord = searchWord
         api.searchItunesFor(self.searchWord)
+        
+        fireApi.delegate = self
+        fireApi.searchItunesFor(self.searchWord)
     }
     
     func searchItunes(word:String) {
@@ -40,17 +45,14 @@ class AppSearchStore:NSObject, UITableViewDataSource, APIUtilProtocol
     }
 
     // MARK: UITableViewDataSource
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return  apps.count
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return appModel.count()
     }
     
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: SearchViewCell = tableView.dequeueReusableCellWithIdentifier(kCellIdentifier) as SearchViewCell
-        if cell == nil {
-            cell = SearchViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: kCellIdentifier)
-        }
-        cell.configureCell(apps[indexPath.row], atIndexPath : indexPath)
+        cell.result = appModel.getApp(indexPath.row)
         return cell
     }
     
@@ -59,16 +61,20 @@ class AppSearchStore:NSObject, UITableViewDataSource, APIUtilProtocol
     func didRecieveAPIResults(results: NSDictionary) {
         // Store the results in our table data array
         
-        if results.count>0 {
-            var tmpApps:AppModel[] = []
-            //self.tableData = results["results"] as NSArray
+        if results.count > 0 {
+            var tmpApps:[AppEntity] = []
+            
             for appData in results["results"] as NSArray {
-                let app:AppModel = AppModel(titleName: appData["trackName"] as String, price: appData["formattedPrice"] as NSString, url: appData["artworkUrl60"] as NSString, url512: appData["artworkUrl512"] as NSString, desc: appData["description"] as NSString)
-                tmpApps += app
+                let app:AppEntity = AppEntity(titleName: appData["trackName"] as String, price: appData["formattedPrice"] as NSString, url: appData["artworkUrl60"] as NSString, url512: appData["artworkUrl512"] as NSString, desc: appData["description"] as NSString)
+                appModel.appendApp(app)
             }
-            self.apps = tmpApps.copy()
-            self.delegate?.didRecieveDataResults(self.apps)
+            
+            self.delegate?.didRecieveDataResults()
         }
+    }
+    
+    func didRecieveAPIResults2(results: NSDictionary) {
+        
     }
     
 }

@@ -7,3 +7,33 @@
 //
 
 import Foundation
+
+class AppModel: NSObject {
+    
+    private var apps:[AppEntity] = []
+    var selected:Int = 0
+    
+    class var sharedInstance :AppModel {
+    struct Static {
+        static let instance = AppModel()
+        }
+        return Static.instance
+    }
+    
+    func appendApp(app:AppEntity) {
+        apps.append(app)
+    }
+    
+    func count()->Int {
+        return apps.count
+    }
+    
+    func getApp(index:Int)->AppEntity {
+        return apps[index]
+    }
+    
+    func concatApp(apps:[AppEntity]) {
+        
+    }
+
+}
