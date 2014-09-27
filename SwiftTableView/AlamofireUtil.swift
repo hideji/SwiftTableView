@@ -1,5 +1,5 @@
 //
-//  AppModel.swift
+//  AlamofireUtil.swift
 //  SwiftTableView
 //
 //  Created by clavier on 2014/09/27.
