@@ -50,6 +50,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, AppSearchStor
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
     
     
     // MARK: UITableViewDelegate
@@ -70,15 +71,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, AppSearchStor
         self.searchBar.resignFirstResponder()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // FIXME: When use custom Segue.カスタムセグエを使うと、NextSegueが一度呼ばれた後に呼ばれる
-        appModel.selected = indexPath.row
-        
-        //var seguename:NSString = "tableToDetail"
-        //self.performSegueWithIdentifier(seguename, sender: self.appsTableView)
-
-    }
     
+    func indexPathForCell(cell:UITableViewCell) -> NSIndexPath! {
+        return self.appsTableView.indexPathForCell(cell)!
+    }
 
     
     // MARK: AppSearchStoreProtocol
@@ -96,6 +92,11 @@ class SearchViewController: UIViewController, UITableViewDelegate, AppSearchStor
         self.searchBar.resignFirstResponder()
         store.searchItunes(searchBar.text)
         SVProgressHUD.show()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        var indexPath = self.indexPathForCell(sender as UITableViewCell)
+        appModel.selected = indexPath.row
     }
     
 }

@@ -28,7 +28,7 @@ class DetailsViewController: UIViewController {
         let leftBarButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: "moveToDetailView")
         self.titleBar.leftBarButtonItem = leftBarButton
         self.app = appModel.getApp(appModel.selected)
-        self.navigationItem.title = app!.titleName
+        self.titleBar.title = app!.titleName
         self.image.setImageWithURL(app!.artworkUrl512)
         self.textView.text = app!.appDescription
         
