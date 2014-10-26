@@ -3,7 +3,7 @@
 //  SwiftTableView
 //
 //  Created by hideji on 2014/06/14.
-//  Copyright (c) 2014 clavier. All rights reserved.
+//  Copyright (c) 2014 hideji. All rights reserved.
 //
 
 import Foundation
